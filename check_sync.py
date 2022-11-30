@@ -16,7 +16,7 @@ as a one-shot check.
 """
 
 import sys, os, argparse, time
-import simplejson as json
+import json
 import helpers
 
 
