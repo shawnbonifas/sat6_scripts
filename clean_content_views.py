@@ -191,7 +191,10 @@ def cleanup(ver_list, ver_descr, dry_run, runuser, ver_keep, cleanall, ignorefir
         list_position = [i for i,x in enumerate(all_versions) if x == lastver]
         # Remove the number of views to keep from the element position of the oldest in-use
         # e.g. keep=2 results in an adjusted list element position [3]
-        num_to_delete = list_position[0] - int(ver_keep[cvid])
+        if list_position:
+            num_to_delete = list_position[0] - int(ver_keep[cvid])
+        else
+            num_to_delete = 0
         # Delete from position [0] to the first 'keep' position
         # e.g. first keep element is [3] so list of elements [0, 1, 2] is created
         list_pos_to_delete = [i for i in range(num_to_delete)]
