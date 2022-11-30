@@ -10,7 +10,7 @@
 
 import sys, argparse, datetime, os, shutil, pickle, re
 import fnmatch, subprocess, tarfile
-import simplejson as json
+import json
 from glob import glob
 import helpers
 
