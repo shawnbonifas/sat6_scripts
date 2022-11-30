@@ -14,7 +14,7 @@ import os
 import argparse
 import datetime
 import pickle
-import simplejson as json
+import json
 import helpers
 
 
