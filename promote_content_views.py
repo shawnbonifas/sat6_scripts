@@ -161,7 +161,7 @@ def promote(target_env, ver_list, ver_descr, ver_version, env_list, prior_list, 
                         helpers.KATELLO_API + "content_view_versions/" + str(ver_list[cvid]) +\
                         "/promote/", json.dumps(
                             {
-                                "environment_id": target_env_id,
+                                "environment_ids": target_env_id,
                                 "force_yum_metadata_regeneration": str(forcemeta)
                             }
                             ))["id"]
