@@ -9,7 +9,7 @@
 """Import Satellite 6 yum content exported by sat_export.py."""
 
 import sys, argparse, os, pickle
-import simplejson as json
+import json
 import helpers
 
 
