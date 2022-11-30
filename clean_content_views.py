@@ -6,15 +6,16 @@
 #notes           :This script is NOT SUPPORTED by Red Hat Global Support Services.
 #license         :GPLv3
 #==============================================================================
-"""Remove content view versions that don't belong to any environment."""
+"""
+Remove content view versions that don't belong to any environment.
 
+"""
 #pylint: disable-msg=R0912,R0913,R0914,R0915
 
 import sys, argparse
 import collections
-import simplejson as json
+import json
 import helpers
-
 
 def get_cv(org_id, cleanup_list, keep):
     """Get the content views."""
@@ -62,11 +63,14 @@ def get_cv(org_id, cleanup_list, keep):
                 ver_descr[cv_result['id']] = cv_result['name']
                 ver_keep[cv_result['id']] = keep
 
+                
     return ver_list, ver_descr, ver_keep
 
 
 def get_content_view_info(cvid):
-    """Return Content View Info for a given CV ID."""
+    """
+    Return Content View Info for a given CV ID.
+    """
     cvinfo = helpers.get_json(
         helpers.KATELLO_API + "content_views/" + str(cvid))
 
@@ -74,7 +78,9 @@ def get_content_view_info(cvid):
 
 
 def check_version_views(version_id):
-    """Check if our version ID belongs to any views, including CCV."""
+    """
+    Check if our version ID belongs to any views, including CCV.
+    """
     version_in_use = False
     version_in_ccv = False
 
@@ -82,10 +88,18 @@ def check_version_views(version_id):
     viewlist = helpers.get_json(
         helpers.KATELLO_API + "content_view_versions/" + str(version_id))
 
+    # Set the key based on the Katello version
+    katello_ver = helpers.get_katello_version()
+    if helpers.version_tuple(katello_ver) >= helpers.version_tuple('3.10'):
+        # Satellite 6.5 has Katello 3.10
+        cv_key = 'environments'
+    else:
+        cv_key = 'katello_content_views'
+
     # If the list is not empty we need to return this fact. A CV that belongs
     # to NO versions will be a candidate for cleanup.
     viewlist['composite_content_view_ids']
-    if viewlist['katello_content_views']:
+    if viewlist[cv_key]:
         version_in_use = True
         msg = "Version " + str(viewlist['version']) + " is associated with published CV"
         helpers.log_msg(msg, 'DEBUG')
